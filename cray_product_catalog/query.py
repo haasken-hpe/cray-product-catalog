@@ -214,57 +214,8 @@ class InstalledProductVersion:
         Returns:
             A list of tuples of (image_name, image_version)
         """
-        # If there is no 'docker' key under the component data, assume that there
-        # is a single docker image named cray/cray-PRODUCT whose version is the
-        # value of the PRODUCT key under component_versions.
-        if COMPONENT_DOCKER_KEY not in self.component_data:
-            return [(self._deprecated_docker_image_name, self._deprecated_docker_image_version)]
-
         return [(component['name'], component['version'])
                 for component in self.component_data.get(COMPONENT_DOCKER_KEY) or []]
-
-    @property
-    def _deprecated_docker_image_version(self):
-        """str: The Docker image version associated with this product version, or None.
-
-        Note: this assumes that the 'component_versions' data is structured as follows:
-        component_versions:
-            product_name: docker_image_version
-
-        Newer versions will structure the 'component_versions' data as follows:
-        component_versions:
-            product_name:
-                docker:
-                    docker_image_name_1: docker_image_version
-                    docker_image_name_2: docker_image_version
-
-        This method should only be used if the installed version does not have a
-        component_versions->product_name->docker key.
-        """
-        return self.component_data.get(self.name)
-
-    @property
-    def _deprecated_docker_image_name(self):
-        """str: The Docker image name associated with this product version.
-
-        Note: this assumes that the 'component_versions' data is structured as follows:
-        component_versions:
-            product_name: docker_image_version
-
-        It also assumes that the name of the singular docker image is
-        'cray/cray-<product_name'.
-
-        Newer versions will structure the 'component_versions' data as follows:
-        component_versions:
-            product_name:
-                docker:
-                    docker_image_name_1: docker_image_version
-                    docker_image_name_2: docker_image_version
-
-        This method should only be used if the installed version does not have a
-        component_versions->product_name->docker key.
-        """
-        return f'cray/cray-{self.name}'
 
     @property
     def repositories(self):
