@@ -26,14 +26,13 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 import logging
 from pkg_resources import parse_version
-import warnings
 
 from jsonschema.exceptions import ValidationError
 from kubernetes.client import CoreV1Api
 from kubernetes.client.rest import ApiException
-from kubernetes.config import load_kube_config, ConfigException
+from kubernetes.config import ConfigException
 from urllib3.exceptions import MaxRetryError
-from yaml import safe_load, YAMLError, YAMLLoadWarning
+from yaml import safe_load, YAMLError
 
 from cray_product_catalog.constants import (
     COMPONENT_DOCKER_KEY,
@@ -75,9 +74,7 @@ class ProductCatalog:
                 Kubernetes configuration.
         """
         try:
-            with warnings.catch_warnings():
-                warnings.filterwarnings('ignore', category=YAMLLoadWarning)
-                load_k8s()
+            load_k8s()
             return CoreV1Api()
         except ConfigException as err:
             raise ProductCatalogError(f'Unable to load kubernetes configuration: {err}.')
