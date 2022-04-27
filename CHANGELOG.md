@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added new `query` module to query the `cray-product-catalog` K8s ConfigMap to
+  obtain information about the installed products.
+
+### Changed
+
 - Update license text to comply with automatic license-check tool.
 
 - Update deploy script to work with CSM 1.2 systems and Nexus authentication
