@@ -150,6 +150,15 @@ jobs:
   scan-pymod:
     runs-on: ubuntu-latest
     needs: build-prep
+
+    permissions:
+      # required for all workflows
+      security-events: write
+
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
     outputs:
       snyk-passed: ${{ steps.snyk-result.outputs.snyk-passed }}
 
