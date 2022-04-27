@@ -167,16 +167,6 @@ class TestInstalledProductVersion(unittest.TestCase):
             expected_docker_image_versions, self.installed_product_version.docker_images
         )
 
-    def test_legacy_docker_images(self):
-        """Test getting the Docker images from an 'old'-style product catalog entry."""
-        legacy_installed_product_version = InstalledProductVersion(
-            'sat', '1.0.1', {'component_versions': {'sat': '1.0.0'}}
-        )
-        expected_docker_image_versions = [('cray/cray-sat', '1.0.0')]
-        self.assertEqual(
-            expected_docker_image_versions, legacy_installed_product_version.docker_images
-        )
-
     def test_no_docker_images(self):
         """Test a product that has an empty dictionary under the 'docker' key returns an empty dictionary."""
         product_with_no_docker_images = InstalledProductVersion(
